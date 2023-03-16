@@ -1,0 +1,49 @@
+
+#wynik
+{
+    width:800px;
+}
+#nbp
+{
+    height:180px;
+    padding: 20px;
+
+}
+#addCurrency
+ {
+     width:18%;
+     background-color:gray;
+     border-radius: 5px;
+     margin: 10px;
+     padding: 5px;
+     float: left;
+ }
+#showDataTable
+{
+width:80%;
+    float: left;
+}
+.showbutton
+{
+    display:none;
+}
+#edition
+{
+    position:fixed;
+    top:0;
+    right:0;
+    width:auto;
+    height:auto;
+    background-color:grey;
+    text-align:center;
+    padding: 10px;
+    border: solid 2px black;
+    border-radius: 10px;
+    margin:20px;
+
+}
+#edition input
+{
+    width:300px;
+    text-align:center;
+}
