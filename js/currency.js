@@ -59,6 +59,7 @@ function saveDataApi(){
                     "currency": cod
                 	}),
             url:url,
+
 		});
 		alert('Dodano do Bazy');
 }
@@ -181,13 +182,13 @@ function sCode(){
         dateto = "&createdTo="+dto;
         cCode="";
     }
-      else if(datefrom=="")
+      else if(dfrom=="")
       {
             datefrom = "";
             dateto = "?createdTo="+dto;
             cCode="&currency="+currencycode;
        }
-      else if(dateto=="")
+      else if(dto=="")
          {
              datefrom = "?createdFrom="+dfrom;
              dateto = "";
