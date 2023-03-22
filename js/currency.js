@@ -1,24 +1,16 @@
 //index.html data
 function aDownloadData(currency){
-    let url = "http://api.nbp.pl/api/exchangerates/rates/c/"+currency+"/?format=json"
+    let url = "http://localhost:8080/currencyRates?currency="+currency;
 
 		$.ajax({
 			type: "GET",
             dataType: 'json',
 			url: url,
 			success: function(data){
-			    aDisplayData(data)
+			    aDisplayData(data);
+			    console.log(data);
                 	}
 		});
-}
-
-//alert na index.html
-function aDisplayData(a){
-    alert("Nazwa: "+a.currency+
-    "\nKod: "+a.code+
-    "\nSprzedaż: "+a.rates[0].ask+
-    "\nKupno: "+a.rates[0].bid+
-    "\nZ dnia: "+a.rates[0].effectiveDate);
 }
 
 //Podstrona. Kursy z NBP(pobieranie danych)
@@ -71,6 +63,14 @@ function saveDataApi(){
 		alert('Dodano do Bazy');
 }
 
+function CreateMyCurs(){
+$('#addCurrency').removeClass('showbutton');
+}
+function Close()
+{
+   $('#addCurrency').addClass('showbutton');
+}
+
 //Dodawanie Własnego kursu recznie
 function addMyData(){
   let url = "http://localhost:8080/currencyRates";
@@ -95,7 +95,8 @@ function addMyData(){
                 	}),
             url:url,
 		});
-		alert('Dodano do Bazy');
+		alert('Dodano do Bazy')
+		$('#addCurrency').addClass('showbutton');
 }
 
 //Wyświetlanie całej tabeli z serwera
@@ -117,6 +118,8 @@ function downloadDataServer(){
 //Podstrona. Kursy z serwera (wyświetlanie danych)
 function displayDataServer(apk)
 {
+ $("#containerTable").removeClass('showbutton');
+ $("#resultServer").removeClass('showbutton');
     $('.run').empty();
    for(let i = 0; i < apk.length; i++){
     $("#resultServer").append(("<tr class='run'><td id='cur'>"+apk[i].name+"</td><td id='cod'>"+apk[i].currency+"</td><td id='ask'>"+apk[i].ask+"</td><td id='bid'>"+apk[i].bid+"</td><td id='dat'>"+apk[i].createdDate+
@@ -211,11 +214,13 @@ function sCode(){
  //Podstrona. Kursy z serwera (wyświetlanie danych)
  function displaySCode(apk)
  {
+ $("#containerTable").removeClass('showbutton');
+ $("#resultServer").removeClass('showbutton');
     $('.run').empty();
     for(let i = 0; i < apk.length; i++){
      $("#resultServer").append(("<tr class='run'><td id='cur"+i+"'>"+apk[i].name+
      "</td><td id='cod"+i+"'>"+apk[i].currency+"</td><td id='ask"+i+"'>"+apk[i].ask+"</td><td id='bid"+i+"'>"+apk[i].bid+"</td><td id='dat"+i+"'>"+apk[i].createdDate+
-                               "</td><td>"+apk[i].comment+"</td><td>"+apk[i].id+"</td><td><button type=\"button\" onclick=\"deleteOneResult(\'"+apk[i].id+"\')\">DELETE</button></td><td><button class=\"ed\" type=\"button\" onclick=\"editOneResult(\'"+apk[i].id+"\')\">EDIT</button></td></tr>"))
+                               "</td><td>"+apk[i].comment+"</td><td>"+apk[i].id+"</td><td><input type=\"button\" value=\"DELETE\" onclick=\"deleteOneResult(\'"+apk[i].id+"\')\"></td><td><button class=\"ed\" type=\"button\" onclick=\"editOneResult(\'"+apk[i].id+"\')\">EDIT</button></td></tr>"))
 
     }
  }
@@ -242,8 +247,8 @@ function sCode(){
 
 //Edycja jednego wiersza w tabeli (wyskakujące pole edycyjne)
 function newDiv(data)
-   {$('#edition').append('<form action=\"\">Id:<br><input type=\"text\" value=\"'+data.id+'\" disabled><br>Cena Kupna:<br><input id=\"eask\" type=\"text\" value=\"'+data.ask+'\" required><br>Cena sprzedaży:<br><input id=\"ebid\" type=\"text\" value=\"'+data.bid+'\"required><br>Data Kursu:<br><input id=\"edat\" type=\"text\" value=\"'+data.createdDate
-+'\" required><br>Kod Waluty:<br><input id=\"ecod\" type=\"text\" value=\"'+data.currency+'\" required><br>Komentarz:<br><input id=\"ecom\" type=\"text\" value=\"'+data.comment+'\" required><br><br><button class=\"btn btn-secondary btn-outline-info btn-lg\" onclick=\"SaveData(\''+data.id+'\')\">Zapisz</button><br><br><button class=\"btn btn-secondary btn-outline-info btn-lg\"  onclick=\"closeDiv()\">Zamknij bez zmian</button><form>');
+   {$('#edition').append('<form action=\"\">ID:<br><input type=\"text\" value=\"'+data.id+'\" disabled><br>Cena Kupna:<br><input id=\"eask\" type=\"text\" value=\"'+data.ask+'\" required><br>Cena sprzedaży:<br><input id=\"ebid\" type=\"text\" value=\"'+data.bid+'\"required><br>Data Kursu:<br><input id=\"edat\" type=\"text\" value=\"'+data.createdDate
++'\" required><br>Kod Waluty:<br><input id=\"ecod\" type=\"text\" value=\"'+data.currency+'\" required><br>Komentarz:<br><input id=\"ecom\" type=\"text\" value=\"'+data.comment+'\" required><br><br><input class=\"btn btn-secondary btn-outline-info btn-lg\" value=\"Zapisz\" onclick=\"SaveData(\''+data.id+'\')\"><br><br><input type=\"button\" class=\"btn btn-secondary btn-outline-info btn-lg\" value=\"Zamknij bez zmian\" onclick=\"closeDiv()\"><form>');
 }
 
 //Edycja jednego wiersza w tabeli (zapis danych)
@@ -279,10 +284,10 @@ function SaveData(data)
             {
             console.log(ecod+" "+eask+" "+ebid+" "+edat+" "+ecom);
             alert('Wykonano Zmiany');
-            sCode();      }
+            ;      }
 
  		});
-
+sCode()
  }
 
 //Edycja jednego wiersza w tabeli (rezygnacja)
@@ -290,4 +295,7 @@ function SaveData(data)
  {
     $('.ed').removeClass('showbutton');
     $('#edition').addClass('showbutton');
+    downloadDataServer();
  }
+
+
